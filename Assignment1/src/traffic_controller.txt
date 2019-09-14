@@ -1,0 +1,67 @@
+Design a Traffic Controller System for a Junction
+
+Vehicles can:
+go straight when straight signal is green
+turn right when straight signal is green and there is no right signal
+turn left when there is a left signal and it's green
+turn left when no left signal exist and straight signal is green
+
+
+Class: Light
+Data: id, color, turnType, duration, lastSeconds
+Behaviour:
+changeSignal(color) {
+	while(lastSeconds > 0) {
+		lastSeconds--;
+		continue;
+	}
+	lastSeconds = duration;
+	this.color = color;
+}
+
+
+Class: Route
+Data: routeId, routeName, leftRoute, rightRoute, straightRoute, lights
+Behaviour: 
+//get left route of current route
+getLeftRoute() {
+	return leftRoute;
+}
+getRightRoute() {
+	return rightRoute;
+}
+getStraightRoute() {
+	return straightRoute;
+}
+
+Class: TrafficPolicy
+Data: 
+Behaviour:
+turnLeft(route) {
+	Route straightRoute = route.getStraightRoute();
+	for(Light item : straightRoute.lights) {
+		if(item.turnType == 'left' && item.color == 'red') {
+			return false;
+		}
+	}
+	//simplify the case: ignore the case when there is no left-signal 
+	return true;
+}
+turnRight(route) {
+	Route straightRoute = route.getStraightRoute();
+	for(Light item : straightRoute.lights) {
+		if(item.turnType == 'right' && item.color == 'green') {
+			return true;
+		}
+	}
+	return false;
+}
+goStraight(route) {
+	Route straightRoute = route.getStraightRoute();
+	for(Light item : straightRoute.lights) {
+		if(item.turnType == 'straight' && item.color == 'green') {
+			return true;
+		}
+	}
+	return false;
+}

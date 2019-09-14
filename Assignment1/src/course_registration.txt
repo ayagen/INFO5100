@@ -1,0 +1,86 @@
+Design a Course Registration Platform
+
+Students can
+1. login and maintain personal information
+2. search courses based on parameters(course name, location, credits, teacher)
+3. enroll selected courses
+4. browser courses
+5. cancel a course
+
+-----------------------------------------------------------------------------
+Class: Student
+Data: id, name, email, chosenCourses
+Behaviour: 
+login(email) {
+	StudentService.login(email);
+}
+
+updateProfile(user, newName, newEmail) {
+	user.name = name;
+	user.email = email;
+}
+
+enrollCourse(student, course) {
+	StudentCourse.enrollCourse(student, course);
+}
+
+cancelCourse(student, course) {
+	StudentCourse.cancelCourse(student, course);
+}
+
+------------------------------------------------------------------------------
+Class: Course
+Data: id, name, credits, location, availableSeats, enrolledStudents
+Behaviour: 
+addCourse(course) {
+	
+}
+
+removeCourse(course) {
+
+}
+
+------------------------------------------------------------------------------
+Class: Teacher
+Data: id, name, email, courses
+Behaviour: 
+
+gradeTo(student, course, grade) {
+	StudentCourse.updateGrade(student, course, grade);
+}
+
+------------------------------------------------------------------------------
+Class: StudentCourse
+Data: student, course, grade
+Behaviour: 
+updateGrade(student, course, grade) {
+	//find the record related to current student and course
+	StudentCourse currentStudentCourse;
+	currentStudentCourse.grade = grade;
+}
+
+enrollCourse(student, course) {
+	student.chosenCourses.add(course);
+	course.enrolledStudents.add(student);
+	course.availableSeats--;
+}
+
+cancelCourse(student, course) {
+	student.chosenCourses.remove(course);
+	course.enrolledStudents.remove(student);
+	course.availableSeats++;
+}
+
+------------------------------------------------------------------------------
+Class: LoginService
+Data:
+Behaviour:
+login(email) {
+	List<Student> all;
+	for(Student item : all) {
+		if(item.email.equals(email)) {
+			return true;
+		}
+	}
+	return false;
+}

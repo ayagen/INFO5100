@@ -1,0 +1,71 @@
+Design a Parking lot
+
+Users can:
+get ticket
+choose a spot
+paking vehicle
+pay
+
+--------------------------------------------------------
+Class: Spot
+Data: size, location, isOccupied
+Behaviour:
+checkAvailability() {
+	return isOccupied;
+}
+checkSuitability(vehicle, spot) {
+	if(vehicle.size > spot.size) {
+		return false;
+	}
+	return true;
+}
+
+---------------------------------------------------------
+Class: ParkingLot
+Data: rate, availableSpots, totalSpots
+Behaviour:
+vehicleEnter(vehicle) {
+	if(availableSpots >= totalSpots) {
+		return false;
+	}
+	Transaction.createTransaction(vehicle, now);
+	availableSpots--;
+	return true;
+}
+vehicleLeave(vehicle, payAmount) {
+	if(checkLeavingPermission(payAmount)){
+		availableSpots++;	
+		transactionId = findTransaction(vehicle);
+		Transaction.updateTransaction(transactionId, endTime, payAmount);
+		return true;	
+	}
+	return false;
+}
+
+checkLeavingPermission(payAmount) {
+	return payAmount >= (endTime - startTime) * rate
+}
+
+---------------------------------------------------------
+Class: Transaction
+Data: startTime, endTime, payAmount, vehicle
+Behaviour:
+createTransaction(vehicle, startTime) {
+	save(vehicle, startTime);
+}
+
+updateTransaction(transactionId, endTime, payAmount) {
+	update(transactionId, endTime, payAmount);
+}
+
+---------------------------------------------------------
+Class: Vehicle
+Data: size, plateNumber
+Behaviour:
+getTicketWhenEnter(parkingLot) {
+	parkingLot.vehicleEnter();
+}
+
+payTicketWhenLeave(parkingLot, vehicle, startTime) {
+	parkingLot.vehicleLeave();
+}

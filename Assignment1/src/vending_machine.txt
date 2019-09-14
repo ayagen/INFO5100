@@ -1,0 +1,44 @@
+Design a vending Machine (will accept coins of different denominations and vends out candies, soda etc)
+
+User can:
+choose item
+insert coins
+get back changes
+get item
+
+--------------------------------------------------------------------------
+Class: Product
+Data: price, name, id, stock
+Behaviour:
+deductStock(product) {
+	product.stock--;
+}
+
+--------------------------------------------------------------------------
+Class: Machine
+Data: location, id, products, balance, 
+Behaviour:
+addBalance(purchase) {
+	machine.balance += (purchase.payAmount - purchase.product.price*purchase.productAmount);
+}
+
+reduceBalance(purchase) {
+	machine.balance -= (purchase.payAmount - purchase.product.price*purchase.productAmount);
+}
+
+---------------------------------------------------------------------------
+Class: Purchase
+Data: id, machine, product, productAmount, payAmount, transactionStatus
+Behaviour:
+pay(machine, product, payAmount) {
+	if(payAmount > product.price * productAmount) {
+		//make sure the machine has enough exchanges return to user for this transaction
+		if(machine.balance > payAmount - product.price * productAmount) {
+			return true;
+		}
+	}
+	return false;
+}
+updateTransactionStatus(purchaseId, status) {
+	purchase.status = status;
+}
