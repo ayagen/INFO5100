@@ -1,0 +1,128 @@
+Design a Car Rental System
+
+User can 
+1. Register as a new user
+2. Login and maintain personal information
+3. Search cars based on parameters(location, budget, car brand, car type, passengers count, payment type)
+4. Make a order
+5. Pay for the order
+6. View/update/cancel order
+
+------------------------------------------------
+Class: User
+Data: name, phone, email, orders, payment
+Behaviour:
+register() {
+	UserService.createANewUser(name, phone, email);
+}
+login() {
+	UserService.login(phone);
+}
+CarService.searchACar();
+OrderService.bookACar();
+OrderService.payForOrder();
+OrderService.viewOrderDetail();
+OrderService.cancelOrder();
+
+-------------------------------------------------
+
+Class: Car
+Data: brand, color, fuelType, drivetrain, engine, transmission, palteNumber, occupiedDateFrom, occupiedDateEnd
+Behaviour:
+searchACar() {
+	CarService.searchCar(searchParams)
+	// display hotels to user
+}
+updateStatus(car, fromDate, endDate) {
+	CarService.updateCarStatus(car, fromDate, endDate)
+}
+
+-------------------------------------------------
+Class: CarService
+Data:
+Behaviour:
+searchCar(searchParams) {
+	// call to fetch all cars and store in List<Car> cars
+    List<Car> availableCars
+    List<Car> cars
+    for(Car car : cars) {
+    	if(searchParams.brand.compareTo(car.brand) && searchParams.color.compareTo(car.color) 
+    		&& searchParams.fuelType.compareTo(car.fuelType) && searchParams.drivetrain.compareTo(car.drivetrain) 
+    		&& searchParams.engine.compareTo(car.engine) && searchParams.transmission.compareTo(car.transmission)
+    		&& (searchParams.endDate < car.occupiedDateFrom || searchParams.fromDateDate > car.occupiedDateEnd)) {
+    		availableCars.add(car);
+    	}
+    }
+    return availableCars;
+}
+
+//update the car's occupied date
+updateCarStatus(car, fromDate, endDate) {
+	// here we just simplify the question, assume that there is always just one order at the same time for one car
+	car.occupiedDateFrom = fromDate;
+	car.occupiedDateEnd = endDate;
+}
+
+-------------------------------------------------
+Class: Order
+Data: car, user, paymentStatus, fromDate, toDate, status; // The status may be ('NORMAL','CANCELED')
+Behaviour:
+bookACar() {
+	OrderService.createOrder(car, user, fromDate, toDate);
+}
+
+-------------------------------------------------
+Class: OrderService
+Data: 
+Behaviour:
+createOrder(car, user, fromDate, toDate) {
+	//save the car id and userid in mysql
+	Mysql.save(carId, userId, fromDate, toDate, 'NORMAL');
+	//update the car's available date info
+	car.updateStatus(car, fromDate, toDate);
+}
+
+payForOrder(order, creditCardDetail) {
+	if(CreditCard.isCardValid(creditCardDetail)){
+		//update the order payment status
+		order.paymentStatus = 'finished'
+	}
+}
+
+viewOrderDetail(order) {
+	System.out.println(order);
+}
+
+cancelOrder(order) {
+	//reset the car's available date
+	CarService.updateCarStatus(order.getCar(), null, null);
+	order.status = 'CANCELED';
+}	
+
+-------------------------------------------------
+Class: UserService
+Data: 
+Behaviour:
+createANewUser(name, phone, email) {
+	if(checkPhoneExisted(phone)) {
+		return false;
+	}
+	return insertARecordIntoMysql(name, phone, email);
+}
+userLogin(phone) {
+	List<String> phoneList;
+	foreach(String phoneItem in phoneList) {
+		if(phoneItem == phone) {
+			return true;
+		}
+	}
+	return false;
+}
+
+-----------------------------------------------------------------------
+Class: CreditCard
+State: bankName, carNumber, cardType, expireDate
+Behaviour:  isCardValid() {
+    Date today = new Date();
+    return today.compareTo(expireDate) == 1;
+}
