@@ -1,0 +1,10 @@
+Q9. Explain Encapsulation with an example. (Write at least 30-40 words).
+
+Encapsulation is defined as binding together the data and the functions that manipulates them. 
+Take conference room as example, there may be many conference rooms in a college, and each rooms has the same or different properties like capacity, location, the number of projectors, etc. 
+Plus, there are some actions we can take on the conference rooms, such as order a room, cancel a room, make a room as reserved. 
+So we can just encapsulate the conference room as a object, then we can just operate on the object to set/get the data of the room, and to call kinds of actions availabe for the object
+
+
+Q10. What is the difference between Encapsulation and Abstraction
+Abstraction is about hiding unwanted details while giving out most essential details, while Encapsulation means hiding the code and data into a single unit such as class or method to protect inner working of an object from outside world.
