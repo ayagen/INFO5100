@@ -1,0 +1,9 @@
+A: The result printed should be 6
+
+the major operation order of statements are: 
+
+	b.addAll(list);   // will set addCount = 3;
+	b.getI();  // now i is the member of instance of B, so its value should be 3 instead of 0 in the super class A
+	
+	
+ 
