@@ -1,0 +1,3 @@
+FileWriter is a convenience class for writing character files. 
+The constructors of this class assume that the default character encoding and the default byte-buffer size are acceptable. 
+To specify these values yourself, construct an OutputStreamWriter on a FileOutputStream.
